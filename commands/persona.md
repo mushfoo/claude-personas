@@ -23,7 +23,7 @@ When the user types `/persona` followed by parameters, Claude should:
 /persona create-agent <id>       # Enable Claude Code agents integration for persona
 /persona remove-agent <id>       # Disable Claude Code agents integration (keeps persona)
 /persona create-command <id>     # Create direct /{id} command for persona
-/persona create-actions <id>     # Create action commands (/{id}--action) for persona
+/persona create-actions <id>     # Create action commands (/{id}:action) for persona
 /persona search <term>           # Search for personas
 /persona info <id>               # Show detailed persona information
 /persona help                    # Show help information
@@ -75,7 +75,7 @@ Usage:
    Configuration:
    ✓ Global scope (accessible from any project)
    ✓ Create direct command (e.g., /financial-advisor)
-   ✓ Create action commands (e.g., /financial-advisor--portfolio-review)
+   ✓ Create action commands (e.g., /financial-advisor:portfolio-review)
    ✗ Enable Claude Code agents integration
    
    [C]reate persona with these settings, [M]odify settings, or [A]bort?
@@ -110,7 +110,7 @@ Usage:
 ✅ Created financial-advisor persona: "Alexandra"
 📁 Global: ~/.claude/personas/financial-advisor.md
 ⚡ Command: /financial-advisor
-⚡ Actions: /financial-advisor--portfolio-review, /financial-advisor--retirement-plan, /financial-advisor--risk-assess
+⚡ Actions: /financial-advisor:portfolio-review, /financial-advisor:retirement-plan, /financial-advisor:risk-assess
 🤖 Agent: ~/.claude/agents/financial-advisor.md
 
 ⚠️  Restart Claude Code to see new commands
@@ -119,7 +119,7 @@ Meet Alexandra, your Professional Financial Advisor specializing in retirement p
 
 Usage:
 • Direct: /financial-advisor
-• Actions: /financial-advisor--portfolio-review, /financial-advisor--retirement-plan
+• Actions: /financial-advisor:portfolio-review, /financial-advisor:retirement-plan
 • Persona: /persona activate financial-advisor  
 • Agent: Use Task tool to launch financial-advisor agent
 ```
@@ -155,7 +155,7 @@ How can I assist you today? I can help with vulnerability-scan, threat-model,
 security-review, or we can discuss any cybersecurity topics you'd like to explore.
 ```
 
-**Example action activation** (`/security-analyst--threat-model`):
+**Example action activation** (`/security-analyst:threat-model`):
 ```
 ✅ Activated security-analyst persona for threat-model action
 
@@ -307,16 +307,16 @@ Usage:
 
 4. Generate individual command files for each action using `persona-action-command-template.md`
 
-5. Create command files: `~/.claude/commands/<persona-id>--<action-id>.md`
+5. Create command files: `~/.claude/commands/<persona-id>/<action-id>.md`
 
 **Output Example:**
 ```
 ✅ Created 4 action commands for life-coach persona
 ⚡ Commands: 
-   /life-coach--goal-setting
-   /life-coach--life-review  
-   /life-coach--habit-building
-   /life-coach--problem-solve
+   /life-coach:goal-setting
+   /life-coach:life-review  
+   /life-coach:habit-building
+   /life-coach:problem-solve
 
 ⚠️  Restart Claude Code to see new commands
 
@@ -369,12 +369,13 @@ Detailed instructions for how Claude should behave as this persona...
 
 ## File Naming Conventions
 
-**Important:** Due to filesystem limitations with colon characters:
-- **Commands use double-dash**: `/life-coach--goal-setting`
-- **Files use double-dash**: `life-coach--goal-setting.md`
-- **Agent files use single dash**: `life-coach.md`
+**Action Commands with Subdirectories:**
+- **Commands use colon syntax**: `/life-coach:goal-setting`
+- **Files use subdirectories**: `life-coach/goal-setting.md`
+- **Direct commands**: `life-coach.md`
+- **Agent files**: `life-coach.md`
 
-The double-dash syntax provides clear separation between persona and action.
+The colon syntax provides clear separation between persona and action, with subdirectories organizing the command files.
 
 ## Agent Wrapper Generation
 

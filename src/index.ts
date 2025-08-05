@@ -359,15 +359,23 @@ async function checkInstallation(): Promise<string[]> {
   
   // Check for app-managed command files
   if (fs.existsSync(COMMANDS_DIR)) {
-    const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(f => f.endsWith('.md'));
-    for (const file of commandFiles) {
-      const filePath = path.join(COMMANDS_DIR, file);
-      if (isAppManagedFile(filePath)) {
-        const metadata = getFileMetadata(filePath);
-        const typeInfo = metadata?.type ? ` (${metadata.type})` : '';
-        items.push(`${filePath}${typeInfo}`);
+    const scanCommandFiles = (dir: string, basePath: string = '') => {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          // Recursively scan subdirectories for action commands
+          scanCommandFiles(fullPath, path.join(basePath, entry.name));
+        } else if (entry.name.endsWith('.md')) {
+          if (isAppManagedFile(fullPath)) {
+            const metadata = getFileMetadata(fullPath);
+            const typeInfo = metadata?.type ? ` (${metadata.type})` : '';
+            items.push(`${fullPath}${typeInfo}`);
+          }
+        }
       }
-    }
+    };
+    scanCommandFiles(COMMANDS_DIR);
   }
 
   // Check for app-managed persona files
@@ -415,14 +423,29 @@ async function checkInstallation(): Promise<string[]> {
 async function removeInstalledFiles(keepUserPersonas: boolean): Promise<void> {
   // Remove app-managed command files (always use metadata)
   if (fs.existsSync(COMMANDS_DIR)) {
-    const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(f => f.endsWith('.md'));
-    for (const file of commandFiles) {
-      const filePath = path.join(COMMANDS_DIR, file);
-      if (isAppManagedFile(filePath)) {
-        fs.unlinkSync(filePath);
-        console.log(chalk.gray(`   Removed: ${file}`));
+    const removeCommandFiles = (dir: string, basePath: string = '') => {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        const relativePath = basePath ? path.join(basePath, entry.name) : entry.name;
+        
+        if (entry.isDirectory()) {
+          // Recursively remove files in subdirectories
+          removeCommandFiles(fullPath, relativePath);
+          // Check if subdirectory is now empty and remove it
+          if (fs.existsSync(fullPath) && fs.readdirSync(fullPath).length === 0) {
+            fs.rmdirSync(fullPath);
+            console.log(chalk.gray(`   Removed empty: ${relativePath}/`));
+          }
+        } else if (entry.name.endsWith('.md')) {
+          if (isAppManagedFile(fullPath)) {
+            fs.unlinkSync(fullPath);
+            console.log(chalk.gray(`   Removed: ${relativePath}`));
+          }
+        }
       }
-    }
+    };
+    removeCommandFiles(COMMANDS_DIR);
   }
 
   // Remove app-managed persona files (always use metadata)

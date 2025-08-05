@@ -43,6 +43,13 @@ This will:
 
 **⚠️ Important:** Restart Claude Code after installation to see new commands.
 
+### Command Structure
+
+Once installed, you'll have access to:
+- **Direct persona commands**: `/life-coach`, `/security-analyst`, etc.
+- **Action-specific commands**: `/life-coach:goal-setting`, `/security-analyst:threat-model`, etc.
+- **Management command**: `/persona` for creating and managing personas
+
 ### Basic Usage
 
 #### List Available Personas

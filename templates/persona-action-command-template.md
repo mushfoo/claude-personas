@@ -1,10 +1,10 @@
-# /{persona-id}--{action-id} Command
+# /{persona-id}:{action-id} Command
 
 Execute the {action-name} action using the {persona-name} persona.
 
 ## Command Activation
 
-When the user types `/{persona-id}--{action-id}`, immediately:
+When the user types `/{persona-id}:{action-id}`, immediately:
 
 1. Load the {persona-name} persona from: `~/.claude/personas/{persona-id}.md`
 2. Activate the persona's complete configuration including:
@@ -49,4 +49,4 @@ If persona file is not found:
 <!-- Created by: claude-code-personas v1.0.0 -->
 <!-- Type: persona-action-command -->
 <!-- Installed: {timestamp} -->
-<!-- Source: {persona-id}--{action-id} -->
+<!-- Source: {persona-id}:{action-id} -->

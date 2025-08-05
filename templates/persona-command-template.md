@@ -19,8 +19,8 @@ When the user types `/{persona-id}`, immediately activate the {persona-name} per
    
    How can I assist you today? I can help with {available-actions} or we can discuss any {persona-domain} topics you'd like to explore."
 
-### Action-Specific Activation: `/{persona-id}--action`
-When the user types `/{persona-id}--action`, activate the persona and execute the specific action:
+### Action-Specific Activation: `/{persona-id}:action`
+When the user types `/{persona-id}:action`, activate the persona and execute the specific action:
 
 1. Load the persona definition
 2. Activate the persona's complete configuration
