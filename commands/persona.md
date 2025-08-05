@@ -453,7 +453,7 @@ Load and activate persona from: ~/.claude/personas/persona-name.md
 <!-- Source: persona-name -->
 ```
 
-**Important**: Always append metadata marker at the end of the file to ensure proper management by the revert system.
+**Important**: Always append metadata marker at the end of the file to ensure proper management by the removal system.
 
 **Generated Persona Files** must also include metadata:
 ```markdown

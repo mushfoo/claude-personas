@@ -20,7 +20,7 @@ interface InitOptions {
   reinstall?: boolean;
   installExamples?: boolean;
   dryRun?: boolean;
-  revert?: boolean;
+  remove?: boolean;
 }
 
 // Utility functions for file metadata
@@ -81,10 +81,10 @@ function getFileMetadata(filePath: string): { type?: string; installed?: string;
 async function main(): Promise<void> {
   // Check for flags
   const isDryRun = process.argv.includes('--dry-run') || process.argv.includes('-d');
-  const isRevert = process.argv.includes('--revert') || process.argv.includes('-r');
+  const isRemove = process.argv.includes('--remove') || process.argv.includes('-r');
   
-  if (isRevert) {
-    await handleRevert(isDryRun);
+  if (isRemove) {
+    await handleRemove(isDryRun);
     return;
   }
   
@@ -304,7 +304,7 @@ process.on('uncaughtException', (error: Error) => {
   process.exit(1);
 });
 
-async function handleRevert(dryRun: boolean = false): Promise<void> {
+async function handleRemove(dryRun: boolean = false): Promise<void> {
   console.log(chalk.cyan('🎭 Claude Code Personas Uninstall\n'));
   
   if (dryRun) {
@@ -328,14 +328,14 @@ async function handleRevert(dryRun: boolean = false): Promise<void> {
 
   if (!dryRun) {
     console.log(); // Empty line
-    const { confirmRevert } = await prompts({
+    const { confirmRemove } = await prompts({
       type: 'confirm',
-      name: 'confirmRevert',
+      name: 'confirmRemove',
       message: 'Are you sure you want to remove all Claude Personas files?',
       initial: false
     });
 
-    if (!confirmRevert) {
+    if (!confirmRemove) {
       console.log(chalk.yellow('Uninstall cancelled.'));
       return;
     }
