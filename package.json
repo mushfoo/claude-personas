@@ -1,0 +1,29 @@
+{
+  "name": "claude-code-personas",
+  "version": "1.0.0",
+  "description": "AI persona management system for Claude Code - create, activate, and manage professional role-based AI personalities",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "personas",
+    "agents"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "setup": "ts-node src/index.ts",
+    "remove": "ts-node src/index.ts --revert",
+    "build": "tsc",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/prompts": "^2.4.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
