@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "setup": "ts-node src/index.ts",
-    "remove": "ts-node src/index.ts --revert",
+    "remove": "ts-node src/index.ts --remove",
     "build": "tsc",
     "dev": "ts-node src/index.ts"
   },

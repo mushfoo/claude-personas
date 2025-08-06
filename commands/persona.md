@@ -26,6 +26,7 @@ When the user types `/persona` followed by parameters, Claude should:
 /persona create-actions <id>     # Create action commands (/{id}:action) for persona
 /persona search <term>           # Search for personas
 /persona info <id>               # Show detailed persona information
+/persona export <id>             # Export persona to file or clipboard
 /persona help                    # Show help information
 ```
 
@@ -334,6 +335,57 @@ Usage:
 2. Return ranked matches with relevance indicators
 3. Show activation commands for found personas
 
+### 8. Export Persona (`/persona export <id>`)
+
+**Action:** Export a persona to a file or clipboard for sharing
+
+**Process:**
+1. Locate the persona file in `~/.claude/personas/<id>.md`
+2. Present export options:
+   ```
+   📤 Export security-analyst persona:
+   
+   [1] Copy to clipboard
+   [2] Save to file (specify path)
+   [3] Save to current directory as security-analyst.md
+   [4] Cancel
+   
+   Choose export option [1-4]:
+   ```
+
+3. Handle selected option:
+   - **Clipboard**: Copy the complete persona content to system clipboard
+   - **File path**: Save to user-specified location (e.g., `./my-personas/security-analyst.md`)
+   - **Current directory**: Save with default filename in current working directory
+
+4. Remove metadata markers from exported content (keep only the clean persona definition)
+
+**Output Examples:**
+
+**Clipboard export:**
+```
+✅ Exported security-analyst persona to clipboard
+📋 Content copied (2,847 characters)
+Ready to paste in any text editor or share with team
+```
+
+**File export:**
+```
+📁 Export security-analyst persona to file:
+Enter file path (or press Enter for './security-analyst.md'): 
+> ./shared-personas/security-expert.md
+
+✅ Exported security-analyst persona 
+📁 Saved to: ./shared-personas/security-expert.md
+📊 File size: 2.8 KB
+```
+
+**Notes:**
+- Exported content excludes app metadata markers
+- Original persona file remains untouched
+- Exported files can be imported into other Claude Code instances
+- Supports sharing personas across teams and projects
+
 ## Persona File Formats
 
 ### Standard Persona Format
@@ -401,7 +453,7 @@ Load and activate persona from: ~/.claude/personas/persona-name.md
 <!-- Source: persona-name -->
 ```
 
-**Important**: Always append metadata marker at the end of the file to ensure proper management by the revert system.
+**Important**: Always append metadata marker at the end of the file to ensure proper management by the removal system.
 
 **Generated Persona Files** must also include metadata:
 ```markdown

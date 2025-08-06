@@ -172,11 +172,12 @@ Convert between different persona formats:
 ### Export/Import
 Share personas with your team:
 ```bash
-# Export a persona
-/persona export analyst > analyst-persona.yaml
+# Export a persona (interactive options)
+/persona export security-analyst
+# Choose: clipboard, file path, or current directory
 
-# Import a persona
-/persona import analyst-persona.yaml
+# Import a persona (planned feature)
+/persona import analyst-persona.md
 ```
 
 ### Project-Specific Personas
